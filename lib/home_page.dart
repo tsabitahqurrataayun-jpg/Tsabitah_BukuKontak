@@ -59,14 +59,6 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => Navigator.pop(context),
               ),
               ListTile(
-                leading: const Icon(Icons.person_add),
-                title: const Text('Tambah Kontak'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _openAddContact();
-                },
-              ),
-              ListTile(
                 leading: const Icon(Icons.favorite),
                 title: const Text('Favorit'),
                 onTap: () {

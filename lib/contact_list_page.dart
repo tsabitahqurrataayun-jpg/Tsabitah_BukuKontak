@@ -15,7 +15,11 @@ class ContactListPage extends StatelessWidget {
       itemBuilder: (context, index) {
         final c = contacts[index];
         return ListTile(
-          leading: const CircleAvatar(child: Icon(Icons.person)),
+          leading: CircleAvatar(
+            child: Text(
+              c.name.isNotEmpty ? c.name[0].toUpperCase() : '?',
+            ),
+          ),
           title: Text(c.name),
           subtitle: Text('${c.email}\n${c.phone}'),
           isThreeLine: true,
