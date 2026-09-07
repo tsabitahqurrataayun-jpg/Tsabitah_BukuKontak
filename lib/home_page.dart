@@ -15,11 +15,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Contact> _contacts = [
     Contact(
-  nama: "Aliimma Afilla Prima",
-  email: "aliimma@gmail.com",
-  nomor: "085192219035",
-  favorite: true,
-    ),
+    name: "Aliimma Afilla Prima",
+    phone: "085192219035",
+    email: "aliiimma@gmail.com",
+  ),
   ];
 
   Future<void> _openAddContact() async {
