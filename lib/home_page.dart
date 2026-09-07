@@ -13,7 +13,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Contact> _contacts = [];
+  final List<Contact> _contacts = [
+    Contact(
+  nama: "Aliimma Afilla Prima",
+  email: "aliimma@gmail.com",
+  nomor: "085192219035",
+  favorite: true,
+    ),
+  ];
 
   Future<void> _openAddContact() async {
     final result = await Navigator.push<Contact>(
