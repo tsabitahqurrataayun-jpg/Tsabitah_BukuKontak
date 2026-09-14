@@ -33,31 +33,59 @@ class _AddContactPageState extends State<AddContactPage> {
       appBar: AppBar(title: const Text('Tambah Kontak')),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Nama Lengkap'),
-                validator: (v) => v == null || v.isEmpty ? 'Nama wajib diisi' : null,
+       child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Nama'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Nama wajib diisi';
+                  }
+                  return null; // null artinya valid, tidak ada erro
+                  },
+                  ), // <-- koma di sini
+            TextFormField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Email wajib diisi';
+                  }
+                if (!value.contains('@')) {
+                  return 'Email tidak valid';
+                  }
+                  return null;
+                  },
+                  ), // <-- koma di sini
+            TextFormField(
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'No Handphone'),
+              keyboardType: TextInputType.phone,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'No Handphone wajib diisi';
+                  }
+                if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                  return 'Hanya boleh angka';
+                  }
+                if (value.length < 10) {
+                  return 'Minimal 10 digit';
+                  }
+                  return null;
+                  },
+                  ), // <-- koma di sini
+            TextFormField(
+              controller: _categoryController,
+              decoration: const InputDecoration(labelText: 'Kategori'),
+                   ),
+                     const SizedBox(height: 20),
+                      ElevatedButton(
+             onPressed: _saveContact,
+            child: const Text('Simpan'),
               ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (v) => v == null || v.isEmpty ? 'Email wajib diisi' : null,
-              ),
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(labelText: 'No. Handphone'),
-                validator: (v) => v == null || v.isEmpty ? 'No. HP wajib diisi' : null,
-              ),
-              TextFormField(
-                controller: _categoryController,
-                decoration: const InputDecoration(labelText: 'Kategori'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(onPressed: _saveContact, child: const Text('Simpan')),
             ],
           ),
         ),
