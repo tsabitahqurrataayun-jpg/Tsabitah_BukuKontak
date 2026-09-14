@@ -1,32 +1,85 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'contact.dart';
 
-class ContactListPage extends StatelessWidget {
+class ContactListPage extends StatefulWidget {
   final List<Contact> contacts;
   const ContactListPage({super.key, required this.contacts});
 
   @override
+  State<ContactListPage> createState() => _ContactListPageState();
+}
+
+class _ContactListPageState extends State<ContactListPage> {
+  final StreamController<String> _searchController = StreamController<String>();
+
+  @override
+  void dispose() {
+    _searchController.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (contacts.isEmpty) {
+    if (widget.contacts.isEmpty) {
       return const Center(child: Text('Belum ada kontak.'));
     }
-    return ListView.builder(
-      itemCount: contacts.length,
-      itemBuilder: (context, index) {
-        final c = contacts[index];
-        return ListTile(
-          leading: CircleAvatar(
-            child: Text(
-              c.name.isNotEmpty ? c.name[0].toUpperCase() : '?',
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(12),
+          child: TextField(
+            decoration: const InputDecoration(
+              labelText: 'Cari kontak...',
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(),
             ),
+            onChanged: (teks) {
+              _searchController.add(teks);
+            },
           ),
-          title: Text(c.name),
-          subtitle: Text(
-            '${c.email}\n${c.phone}${c.category?.isNotEmpty == true ? '\nKategori: ${c.category}' : ''}',
+        ),
+        Expanded(
+          child: StreamBuilder<String>(
+            stream: _searchController.stream,
+            initialData: '',
+            builder: (context, snapshot) {
+              final keyword = (snapshot.data ?? '').toLowerCase();
+
+              final hasilFilter = widget.contacts.where((c) {
+                final namaCocok = c.name.toLowerCase().contains(keyword);
+                final kategoriCocok =
+                    (c.category ?? '').toLowerCase().contains(keyword);
+                return namaCocok || kategoriCocok;
+              }).toList();
+
+              if (hasilFilter.isEmpty) {
+                return const Center(child: Text('Kontak tidak ditemukan.'));
+              }
+
+              return ListView.builder(
+                itemCount: hasilFilter.length,
+                itemBuilder: (context, index) {
+                  final c = hasilFilter[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      child: Text(
+                        c.name.isNotEmpty ? c.name[0].toUpperCase() : '?',
+                      ),
+                    ),
+                    title: Text(c.name),
+                    subtitle: Text(
+                      '${c.email}\n${c.phone}${c.category?.isNotEmpty == true ? '\nKategori: ${c.category}' : ''}',
+                    ),
+                    isThreeLine: c.category?.isNotEmpty == true,
+                  );
+                },
+              );
+            },
           ),
-          isThreeLine: c.category?.isNotEmpty == true,
-        );
-      },
+        ),
+      ],
     );
   }
 }
