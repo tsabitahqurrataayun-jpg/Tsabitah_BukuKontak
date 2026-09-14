@@ -1,7 +1,13 @@
 class Contact {
-  final String name;
-  final String email;
-  final String phone;
+  String name;
+  String phone;
+  String email;
+  String? category; // <-- baru, nullable karena opsional
 
-  Contact({required this.name, required this.email, required this.phone});
+  Contact({
+    required this.name,
+    required this.phone,
+    required this.email,
+    this.category, // <-- opsional, tidak pakai 'required'
+  });
 }

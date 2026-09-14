@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
     name: "Aliimma Afilla Prima",
     phone: "085192219035",
     email: "aliiimma@gmail.com",
+    category: "Teman",
   ),
   ];
 

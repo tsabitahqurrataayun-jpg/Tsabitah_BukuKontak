@@ -13,6 +13,7 @@ class _AddContactPageState extends State<AddContactPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
+  final _categoryController = TextEditingController();
 
   void _saveContact() {
     if (_formKey.currentState!.validate()) {
@@ -20,6 +21,7 @@ class _AddContactPageState extends State<AddContactPage> {
         name: _nameController.text,
         email: _emailController.text,
         phone: _phoneController.text,
+        category: _categoryController.text,
       );
       Navigator.pop(context, contact); // kembali ke halaman Kontak
     }
@@ -49,6 +51,10 @@ class _AddContactPageState extends State<AddContactPage> {
                 controller: _phoneController,
                 decoration: const InputDecoration(labelText: 'No. Handphone'),
                 validator: (v) => v == null || v.isEmpty ? 'No. HP wajib diisi' : null,
+              ),
+              TextFormField(
+                controller: _categoryController,
+                decoration: const InputDecoration(labelText: 'Kategori'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(onPressed: _saveContact, child: const Text('Simpan')),

@@ -21,8 +21,10 @@ class ContactListPage extends StatelessWidget {
             ),
           ),
           title: Text(c.name),
-          subtitle: Text('${c.email}\n${c.phone}'),
-          isThreeLine: true,
+          subtitle: Text(
+            '${c.email}\n${c.phone}${c.category?.isNotEmpty == true ? '\nKategori: ${c.category}' : ''}',
+          ),
+          isThreeLine: c.category?.isNotEmpty == true,
         );
       },
     );
