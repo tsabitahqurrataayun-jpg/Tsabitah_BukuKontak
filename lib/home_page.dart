@@ -15,11 +15,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Contact> _contacts = [
     Contact(
-    name: "Aliimma Afilla Prima",
-    phone: "085192219035",
-    email: "aliiimma@gmail.com",
-    category: "Teman",
-  ),
+      name: "Aliimma Afilla Prima",
+      phone: "085192219035",
+      email: "aliiimma@gmail.com",
+      category: "Teman",
+    ),
   ];
 
   Future<void> _openAddContact() async {
@@ -30,6 +30,29 @@ class _HomePageState extends State<HomePage> {
     if (result != null) {
       setState(() => _contacts.add(result));
     }
+  }
+
+  Future<void> _editContact(Contact oldContact) async {
+    final updated = await Navigator.push<Contact>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => AddContactPage(existingContact: oldContact),
+      ),
+    );
+    if (updated != null) {
+      setState(() {
+        final index = _contacts.indexOf(oldContact);
+        if (index != -1) {
+          _contacts[index] = updated;
+        }
+      });
+    }
+  }
+
+  void _deleteContact(Contact contact) {
+    setState(() {
+      _contacts.remove(contact);
+    });
   }
 
   @override
@@ -80,7 +103,11 @@ class _HomePageState extends State<HomePage> {
         ),
         body: TabBarView(
           children: [
-            ContactListPage(contacts: _contacts),
+            ContactListPage(
+              contacts: _contacts,
+              onEdit: _editContact,
+              onDelete: _deleteContact,
+            ),
             const FavoritePage(),
           ],
         ),

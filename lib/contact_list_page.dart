@@ -4,7 +4,14 @@ import 'contact.dart';
 
 class ContactListPage extends StatefulWidget {
   final List<Contact> contacts;
-  const ContactListPage({super.key, required this.contacts});
+  const ContactListPage({
+    super.key,
+    required this.contacts,
+    required this.onEdit,
+    required this.onDelete,
+  });
+  final void Function(Contact contact) onEdit;
+  final void Function(Contact contact) onDelete;
 
   @override
   State<ContactListPage> createState() => _ContactListPageState();
@@ -73,6 +80,19 @@ class _ContactListPageState extends State<ContactListPage> {
                       '${c.email}\n${c.phone}${c.category?.isNotEmpty == true ? '\nKategori: ${c.category}' : ''}',
                     ),
                     isThreeLine: c.category?.isNotEmpty == true,
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.blue),
+                          onPressed: () => widget.onEdit(c),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () => widget.onDelete(c),
+                        ),
+                      ],
+                    ),
                   );
                 },
               );
